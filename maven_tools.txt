@@ -1,0 +1,24 @@
+Apache Maven is a software project management and comprehension tool. Based on the concept of a project object model (POM), Maven can manage a project's build, reporting and documentation from a central piece of information.
+Building and Dependency Management Tool.
+It does following:
+- Compiles the source code
+- Packeges the compiled code into JAR of ZIP file
+- Installs the packeged code in local repository, server repository and central repository.
+
+Build Tool:
+
+-Generates source code
+-Generates documentation from source code
+-Compiles source code
+-Download all the dependencies
+-Junit test cases
+-Packages compiled code into JAR of ZIP file
+-Installs the packaged code into local, server or central repository.
+
+Project Object Model (POM)is the fundamental unit of work in Maven. It is a xml file that contains infn abt the project and configuration details used by Maven.
+
+Install Maven in Amazon Linux
+;yum update
+;yum install default-jdk //version 11 or above
+;yun install git
+;yum install maven

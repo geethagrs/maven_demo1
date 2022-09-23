@@ -1,0 +1,57 @@
+pc02@pc02-Veriton-M200-H310:~$ sudo apt-get update
+pc02@pc02-Veriton-M200-H310:~$ sudo apt install docker.io
+
+To check the status of the service, use the command:
+
+pc02@pc02-Veriton-M200-H310:~$ sudo systemctl status docker
+exit
+
+To start the Docker service run the following commands:
+
+pc02@pc02-Veriton-M200-H310:~$ sudo systemctl start docker
+
+Enable Docker to run at startup with:
+
+pc02@pc02-Veriton-M200-H310:~$ sudo systemctl enable docker
+
+*********Install Jenkins***************
+
+pc02@pc02-Veriton-M200-H310:~$ docker run -p 8080:8080 -p 50000:50000 jenkins/jenkins:lts -d
+
+docker: Got permission denied while trying to connect to the Docker daemon socket at unix:///var/run/docker.sock: Post "http://%2Fvar%2Frun%2Fdocker.sock/v1.24/containers/create": dial unix /var/run/docker.sock: connect: permission denied.
+See 'docker run --help'.
+
+It is advisable to keep the settings as is. However, you can bypass typing sudo every time. Adding the user to the docker group grants privileges equivalent to root.
+
+1. First, create the docker group with the command:
+
+pc02@pc02-Veriton-M200-H310:~$ sudo groupadd docker
+groupadd: group 'docker' already exists
+pc02@pc02-Veriton-M200-H310:~$ sudo usermod -aG docker pc02
+
+Enable the new settings with:
+pc02@pc02-Veriton-M200-H310:~$ su - pc02
+Password: 
+pc02@pc02-Veriton-M200-H310:~$ 
+
+ Lastly, check to confirm the user is now a part of the docker group by running:
+ pc02@pc02-Veriton-M200-H310:~$ id -nG
+pc02 adm cdrom sudo dip plugdev lpadmin lxd sambashare docker
+
+//docker continers
+pc02@pc02-Veriton-M200-H310:~$ docker ps
+CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
+
+// open browser: http://172.16.18.192:8080/
+
+
+Jenkins initial setup is required. An admin user has been created and a password generated.
+Please use the following password to proceed to installation:
+
+c143558f2c5f409db4a75ecf6ef64875
+
+This may also be found at: /var/jenkins_home/secrets/initialAdminPassword
+        Jenkins URL: http://172.16.18.192:8080/
+
+
+
