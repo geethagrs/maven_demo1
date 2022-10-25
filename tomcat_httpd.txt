@@ -1,0 +1,111 @@
+Apache tomcat is used to deploy all front end backend applications.
+
+Download Apache tomcat 8.5 (tar.z file) from https://tomcat.apache.org/download-80.cgi
+and copy / upload to the 'aptom' folder .
+[ec2-user@ip-172-31-92-145 ~]$ mkdir aptom
+[ec2-user@ip-172-31-92-145 ~]$ cd aptom/
+[ec2-user@ip-172-31-92-145 aptom]$ ls
+apache-tomcat-8.5.83.tar.gz
+[ec2-user@ip-172-31-92-145 aptom]$ tar -zvxf apache-tomcat-8.5.83.tar.gz
+
+[ec2-user@ip-172-31-92-145 aptom]$ ls
+apache-tomcat-8.5.83  apache-tomcat-8.5.83.tar.gz
+[ec2-user@ip-172-31-92-145 aptom]$ cd apache-tomcat-8.5.83/
+bin  BUILDING.txt  conf  CONTRIBUTING.md  lib  LICENSE  logs  NOTICE  README.md  RELEASE-NOTES  RUNNING.txt  temp  webapps  work
+
+[ec2-user@ip-172-31-92-145 apache-tomcat-8.5.83]$ cd /bin
+[ec2-user@ip-172-31-92-145 bin]$ ls
+bootstrap.jar       ciphers.bat                   configtest.bat  digest.sh         shutdown.sh      tomcat-native.tar.gz  version.sh
+catalina.bat        ciphers.sh                    configtest.sh   setclasspath.bat  startup.bat      tool-wrapper.bat
+catalina.sh         commons-daemon.jar            daemon.sh       setclasspath.sh   startup.sh       tool-wrapper.sh
+catalina-tasks.xml  commons-daemon-native.tar.gz  digest.bat      shutdown.bat      tomcat-juli.jar  version.bat
+
+/*to start tomcat server */
+[ec2-user@ip-172-31-92-145 bin]$ ./startup.sh
+Using CATALINA_BASE:   /home/ec2-user/aptom/apache-tomcat-8.5.83
+Using CATALINA_HOME:   /home/ec2-user/aptom/apache-tomcat-8.5.83
+Using CATALINA_TMPDIR: /home/ec2-user/aptom/apache-tomcat-8.5.83/temp
+Using JRE_HOME:        /usr
+Using CLASSPATH:       /home/ec2-user/aptom/apache-tomcat-8.5.83/bin/bootstrap.jar:/home/ec2-user/aptom/apache-tomcat-8.5.83/bin/tomcat-juli.jar
+Using CATALINA_OPTS:
+Tomcat started.
+
+Go to browser and type private ip address of the host followed by :8080
+i,e http://172.31.92.145:8080/ OR https://localhost
+
+/*to stop tomcat server */
+[ec2-user@ip-172-31-92-145 bin]$ ./shutdown.sh
+Using CATALINA_BASE:   /home/ec2-user/aptom/apache-tomcat-8.5.83
+Using CATALINA_HOME:   /home/ec2-user/aptom/apache-tomcat-8.5.83
+Using CATALINA_TMPDIR: /home/ec2-user/aptom/apache-tomcat-8.5.83/temp
+Using JRE_HOME:        /usr
+Using CLASSPATH:       /home/ec2-user/aptom/apache-tomcat-8.5.83/bin/bootstrap.jar:/home/ec2-user/aptom/apache-tomcat-8.5.83/bin/tomcat-juli.jar
+Using CATALINA_OPTS:
+NOTE: Picked up JDK_JAVA_OPTIONS:  --add-opens=java.base/java.lang=ALL-UNNAMED --add-opens=java.base/java.io=ALL-UNNAMED --add-opens=java.base/java.util=ALL-UNNAMED --add-opens=java.base/java.util.concurrent=ALL-UNNAMED --add-opens=java.rmi/sun.rmi.transport=ALL-UNNAMED
+
+********************************************************************************************************************************************************************************************************************************************************************************************************
+
+httpd is used for deploy front end applications.
+
+$sudo yum install httpd //linux 
+$sudo service httpd start
+
+/* in ubuntu */
+$sudo apt update
+$sudo apt install apache2
+//firewall settings
+$sudo ufw app list
+Apache 
+Apache Full
+Apache Secure
+CUPS
+
+$sudo ufw allow 'Apache'
+Rules Updated
+Rules Updated(V6)
+
+$sudo systemctl status apache2
+$sudo systemctl start apache2
+(in broweser run 'https://localhost/', Apache 2 ubuntu page will appear)
+
+$sudo systemctl stop apache2 // to stop apache2 / httpd server
+
+****************************************************************************************************************************
+
+Deploy JAR applications in tomcat
+
+[ec2-user@ip-172-31-92-145 apache-tomcat-8.5.83]$ cd /bin
+[ec2-user@ip-172-31-92-145 bin]$ ls
+[ec2-user@ip-172-31-92-145 bin]$ ./startup.sh
+Go to browser and type private ip address of the host followed by :8080
+i,e http://172.31.92.145:8080/ OR https://localhost
+
+Manager App: 
+$cd /aptom/apache-tomcat-10.1.1/webapps/host-manager/META-INF
+ls
+context.xml
+$gedit context.xml
+comment the lines  <!-- <Valve className............0:1 /> --> and save
+
+$cd /aptom/apache-tomcat-10.1.1/webapps/manager/META-INF
+ls
+context.xml
+
+$gedit context.xml
+comment the lines  <!-- <Valve className............0:1 /> --> and save
+
+$cd /aptom/apache-tomcat-10.1.1/conf
+gedit tomcat-users.xml
+
+insert following code:
+
+<role rolename = "manager-gui"/>
+<role rolename = "manager-script"/>
+<role rolename = "manager-jmx"/>
+<role rolename = "manager-status"/>
+<user username="admin" password="admin" roles="manager-gui,manager-script, manager-jmx, manager-status" />
+<user username="deployer" password="deployer" roles="manager-script" />
+<user username="tomcat" password="s3cret" roles="manager-gui" />
+
+now restart the tomcat server 
+Manager App- username: admin Password: admin
